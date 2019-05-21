@@ -1,10 +1,24 @@
 language: java
 sudo: true
-dist: precise
+dist: trusty
 jdk:
   - oraclejdk8
+services:
+  - mysql
+
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+
 before_install:
   - chmod +x mvnw
+  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('123123') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  - sudo mysql_upgrade -u root -p123123
+  - sudo service mysql restart
+
 notifications:
   email:
     recipients:
