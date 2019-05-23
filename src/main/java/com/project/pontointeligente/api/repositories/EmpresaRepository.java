@@ -10,6 +10,6 @@ import com.project.pontointeligente.api.entities.Empresa;
 public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
 	
 	@Transactional(readOnly = true)
-	Empresa findEmpresaByCnpj(String cnpj);
+	Empresa findByCnpj(String cnpj);
 
 }
