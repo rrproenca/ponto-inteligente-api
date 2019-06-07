@@ -46,7 +46,7 @@ public class LancamentoControllerTest {
 	@MockBean
 	private FuncionarioService funcionarioService;
 	
-	private static final String URL_BASE = "/api/lancamentos/";
+	private static final String URL_BASE = "/api/lancamento/";
 	private static final Long ID_FUNCIONARIO = 1L;
 	private static final Long ID_LANCAMENTO = 1L;
 	private static final String TIPO = TipoEnum.INICIO_TRABALHO.name();
