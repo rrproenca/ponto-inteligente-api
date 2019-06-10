@@ -25,9 +25,13 @@ import com.project.pontointeligente.api.response.Response;
 import com.project.pontointeligente.api.services.FuncionarioService;
 import com.project.pontointeligente.api.utils.PasswordUtils;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api/funcionario")
 @CrossOrigin(origins = "*")
+@Api(value="addFuncdata", description="Mantem dados dos funcionários.")
 public class FuncionarioController {
 
 	
@@ -54,6 +58,7 @@ public class FuncionarioController {
 	 * @throws NoSuchAlgorithmException
 	 */
 	@PutMapping(value = "/id/{id}")
+	@ApiOperation(value = "Atualiza dados do Funcionário.")
 	public ResponseEntity<Response<FuncionarioDto>> atualizar(@PathVariable("id") Long id,
 			@Valid @RequestBody FuncionarioDto funcionarioDto, BindingResult result) throws NoSuchAlgorithmException {
 		

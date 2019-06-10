@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import com.project.pontointeligente.api.security.utils.JwtTokenUtil;
 
@@ -22,7 +24,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @Profile("dev")
 @EnableSwagger2
-public class SwaggerConfig {
+public class SwaggerConfig  extends WebMvcConfigurationSupport {
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
@@ -57,4 +59,12 @@ public class SwaggerConfig {
 		return new SecurityConfiguration(null, null, null, null, "Bearer " + token, ApiKeyVehicle.HEADER,
 				"Authorization", ",");
 	}
+	
+	 @Override
+	    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+	        registry.addResourceHandler("swagger-ui.html")
+	                .addResourceLocations("classpath:/META-INF/resources/");
+	        registry.addResourceHandler("/webjars/**")
+	                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+	    }
 }

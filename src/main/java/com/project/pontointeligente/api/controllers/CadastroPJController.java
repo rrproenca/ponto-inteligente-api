@@ -26,9 +26,15 @@ import com.project.pontointeligente.api.services.EmpresaService;
 import com.project.pontointeligente.api.services.FuncionarioService;
 import com.project.pontointeligente.api.utils.PasswordUtils;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/api/cadastrar-pj")
 @CrossOrigin(origins = "*")
+@Api(value="addPJdata", description="Adiciona nova pessoa juridica ao sistema.")
 public class CadastroPJController {
 
 	private static final Logger log = LoggerFactory.getLogger(CadastroPJController.class);
@@ -52,6 +58,14 @@ public class CadastroPJController {
 	 */
 	@PostMapping
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value = "Adiciona pessoa juridica ao sistema", response = ResponseEntity.class)
+	@ApiResponses(value = {
+	        @ApiResponse(code = 200, message = "Retorno com suecesso"),
+	        @ApiResponse(code = 401, message = "você não esta autorizado a ver estas informações"),
+	        @ApiResponse(code = 403, message = "Acesso negado"),
+	        @ApiResponse(code = 404, message = "A informação que deseja ver não foi encontrada.")
+	}
+	)
 	public ResponseEntity<Response<CadastroPJDto>> cadastrar(@Valid @RequestBody CadastroPJDto cadastroPJDto,
 			BindingResult result) throws NoSuchAlgorithmException {
 		log.info("Cadastrando PJ: {}", cadastroPJDto.toString());

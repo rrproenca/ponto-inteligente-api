@@ -27,9 +27,13 @@ import com.project.pontointeligente.api.services.EmpresaService;
 import com.project.pontointeligente.api.services.FuncionarioService;
 import com.project.pontointeligente.api.utils.PasswordUtils;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api/cadastrar-pf")
 @CrossOrigin(origins = "*")
+@Api(value="addPfdata", description="Adiciona nova pessoa física ao sistema.")
 public class CadastroPfController {
 
 	private static final Logger log = LoggerFactory.getLogger(CadastroPfController.class);
@@ -54,6 +58,7 @@ public class CadastroPfController {
 	 * @throws NoSuchAlgorithmException
 	 */
 	@PostMapping
+	@ApiOperation(value = "Adiciona pessoa física ao sistema", response = ResponseEntity.class)
 	public ResponseEntity<Response<CadastroPfDto>> cadastrar(@Valid @RequestBody CadastroPfDto cadastroPJfDto,
 			BindingResult result) throws NoSuchAlgorithmException {
 		

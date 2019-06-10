@@ -17,9 +17,15 @@ import com.project.pontointeligente.api.entities.Empresa;
 import com.project.pontointeligente.api.response.Response;
 import com.project.pontointeligente.api.services.EmpresaService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/api/empresas")
 @CrossOrigin(origins = "*")
+@Api(value="EmpresaData", description="Retorna empresa cadastradas no sistema.")
 public class EmpresaController {
 
 	private static final Logger log = LoggerFactory.getLogger(EmpresaController.class);
@@ -39,6 +45,7 @@ public class EmpresaController {
 	 * @return ResponseEntity<Response<EmpresaDto>>
 	 */
 	@GetMapping(value = "/cnpj/{cnpj}")
+	@ApiOperation(value = "Retorna os dados da empresa pelo cnpj informado.", response = ResponseEntity.class)	
 	public ResponseEntity<Response<EmpresaDto>> buscarPorCnpj(@PathVariable("cnpj") String cnpj) {
 		
 		log.info("Buscando empresa por CNPJ: {}", cnpj);

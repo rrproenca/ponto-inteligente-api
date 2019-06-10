@@ -37,9 +37,15 @@ import com.project.pontointeligente.api.response.Response;
 import com.project.pontointeligente.api.services.FuncionarioService;
 import com.project.pontointeligente.api.services.LancamentoService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/api/lancamento")
 @CrossOrigin(origins = "*")
+@Api(value="onlineLancamentos", description="Mantem lançamentos cadastrados no sistema.")
 public class LancamentoController {
 
 	private static final Logger log = LoggerFactory.getLogger(LancamentoController.class);
@@ -69,6 +75,7 @@ public class LancamentoController {
 	 * @return ResponseEntity<Response<LancamentoDto>>
 	 */
 	@GetMapping(value = "/funcionario/{funcionarioId}")
+	@ApiOperation(value = "Lista os lançamentos encontrados por um funcionário paginada.")
 	public ResponseEntity<Response<Page<LancamentoDto>>> listarPorFuncionarioId(
 			@PathVariable("funcionarioId") Long funcionarioId,
 			@RequestParam(value = "pag", defaultValue = "0") int pag,
@@ -95,6 +102,7 @@ public class LancamentoController {
 	 * @return ResponseEntity<Response<LancamentoDto>>
 	 */
 	@GetMapping(value = "/{id}")
+	@ApiOperation(value = "Lista o lançamentos encontrado pelo seu Id.")
 	public ResponseEntity<Response<LancamentoDto>> listarPorId(@PathVariable("id") Long id) {
 		
 		log.info("Buscando lançamento por ID: {}", id);
@@ -121,6 +129,7 @@ public class LancamentoController {
 	 * @throws ParseException 
 	 */
 	@PostMapping
+	@ApiOperation(value = "Adiciona lançamentos de ponto eletrônico feito por um funcionário.")
 	public ResponseEntity<Response<LancamentoDto>> adicionar(@Valid @RequestBody LancamentoDto lancamentoDto,
 			BindingResult result) throws ParseException {
 		log.info("Adicionando lançamento: {}", lancamentoDto.toString());
@@ -148,6 +157,7 @@ public class LancamentoController {
 	 * @throws ParseException 
 	 */
 	@PutMapping(value = "/{id}")
+	@ApiOperation(value = "Atualiza os dados de um lançamento pelo seu Id.")
 	public ResponseEntity<Response<LancamentoDto>> atualizar(@PathVariable("id") Long id,
 			@Valid @RequestBody LancamentoDto lancamentoDto, BindingResult result) throws ParseException {
 		log.info("Atualizando lançamento: {}", lancamentoDto.toString());
@@ -175,6 +185,14 @@ public class LancamentoController {
 	 */
 	@DeleteMapping(value = "/{id}")
 	@PreAuthorize("hasAnyRole('ADMIN')")
+	@ApiOperation(value = "Remove um lançamento cadastrado no sistema.")
+	@ApiResponses(value = {
+	        @ApiResponse(code = 200, message = "Retorno com sucesso"),
+	        @ApiResponse(code = 401, message = "você não esta autorizado a ver esta informação"),
+	        @ApiResponse(code = 403, message = "Acesso negado"),
+	        @ApiResponse(code = 404, message = "A informação não foi encontrada.")
+	}
+	)
 	public ResponseEntity<Response<String>> remover(@PathVariable("id") Long id) {
 		log.info("Removendo lançamento: {}", id);
 		Response<String> response = new Response<String>();
